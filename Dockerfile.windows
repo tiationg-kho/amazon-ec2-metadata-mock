@@ -1,4 +1,4 @@
-ARG WINDOWS_VERSION=1809
+ARG WINDOWS_VERSION=1809-amd64
 
 # Build the manager binary
 FROM golang:1.23 as builder

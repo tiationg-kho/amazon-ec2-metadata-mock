@@ -59,11 +59,14 @@ for os_arch in "${PLATFORMS[@]}"; do
     else
         bin_name="$BASE_BIN_NAME-$os-$arch"
     fi
-
     docker container rm $container_name || :
     $SCRIPTPATH/build-docker-images -p $os_arch -v $VERSION -r $repo_name $PASS_THRU_ARGS
     docker container create --rm --name $container_name "$repo_name:$VERSION-$os-$arch"
-    docker container cp $container_name:/ec2-metadata-mock $BIN_DIR/$bin_name
+    if [[ $os == "windows" ]]; then
+        docker container cp $container_name:/ec2-metadata-mock.exe $BIN_DIR/$bin_name
+    else
+        docker container cp $container_name:/ec2-metadata-mock $BIN_DIR/$bin_name
+    fi
 
     if [[ $os == "windows" ]]; then
       ## Create zip archive with binary taking into account windows .exe
