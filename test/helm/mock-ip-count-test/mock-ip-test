@@ -63,7 +63,7 @@ function test() {
     done
 
     echo "copying 404_response.golden to 404-pod"
-    kubectl cp "$SCRIPTPATH/../../e2e/golden/404_response.golden" test-pod-404:/tmp/404_response.golden
+    kubectl cp "$SCRIPTPATH/../../e2e/golden/404_response.golden" test-pod-404:/tmp/404_response.golden -c mock-ip-test
 
     # Query status until tests succeed or fail
     for i in `seq 1 $STATUS_CHECK_CYCLES`; do
